@@ -34,8 +34,8 @@ public class studentService {
             old.setName(updated.getName()!=null && updated.getName().equals("")?updated.getName() : old.getName());
             old.setEmail(updated.getEmail()!=null && updated.getEmail().equals("")? updated.getEmail() : old.getEmail());
         }
-        studentRepository.save(updated);
-        return updated;
+        studentRepository.save(old);
+        return old;
     }
 
 }

@@ -3,6 +3,8 @@ package com.managmnetSystem.StudentManagment.controller;
 import com.managmnetSystem.StudentManagment.entity.Student;
 import com.managmnetSystem.StudentManagment.service.studentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,30 +16,36 @@ public class studentController {
     private studentService studentService;
 
     @GetMapping
-    public List<Student>getall(){
-       return  studentService.getall();
+    public ResponseEntity<?>getall(){
+        List<Student>allstudents=studentService.getall();
+        return new ResponseEntity<>(allstudents,HttpStatus.OK);
     }
     @GetMapping("/id/{id}")
-    public Student findByid(@PathVariable Long id){
-        return studentService.getById(id);
+    public ResponseEntity<?> findByid(@PathVariable Long id){
+        Student getById=studentService.getById(id);
+        if(getById!=null){
+            return new ResponseEntity<>(getById,HttpStatus.OK)
+        }
+        return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @PostMapping
-    public Student saveStudent(@RequestBody Student newStudent){
-        return studentService.saveStudent(newStudent);
+    public ResponseEntity<?> saveStudent(@RequestBody Student newStudent){
+         studentService.saveStudent(newStudent);
+         return new ResponseEntity<>(newStudent,HttpStatus.CREATED);
     }
     @DeleteMapping("/id/{id}")
-    public String deleteStudentById(@PathVariable Long id){
+    public ResponseEntity<?> deleteStudentById(@PathVariable Long id){
         studentService.deleteStudent(id);
-        return "Student Deleted Successfully";
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @DeleteMapping("delete-all")
-    public String deleteAll(){
+    public ResponseEntity<?> deleteAll(){
         studentService.deleteAll();
-        return "All Record deleted";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping("id/{id}")
-    public Student updated(@PathVariable Long id,@RequestBody Student updated){
+    public ResponseEntity<?> updated(@PathVariable Long id,@RequestBody Student updated){
         studentService.update(id,updated);
-        return updated;
+        return new ResponseEntity<>(updated,HttpStatus.OK);
     }
 }
