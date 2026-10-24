@@ -24,7 +24,7 @@ public class studentController {
     public ResponseEntity<?> findByid(@PathVariable Long id){
         Student getById=studentService.getById(id);
         if(getById!=null){
-            return new ResponseEntity<>(getById,HttpStatus.OK)
+            return new ResponseEntity<>(getById,HttpStatus.OK);
         }
         return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
