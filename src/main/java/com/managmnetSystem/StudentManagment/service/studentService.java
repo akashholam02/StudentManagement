@@ -30,12 +30,23 @@ public class studentService {
     }
     public Student update(Long id,Student updated){
         Student old=studentRepository.findById(id).orElse(null);
-        if(old !=null){
-            old.setName(updated.getName()!=null && updated.getName().equals("")?updated.getName() : old.getName());
-            old.setEmail(updated.getEmail()!=null && updated.getEmail().equals("")? updated.getEmail() : old.getEmail());
+        if (old != null) {
+            if (updated.getName() != null && !updated.getName().isEmpty()) {
+                old.setName(updated.getName());
+            }
+
+            if (updated.getEmail() != null && !updated.getEmail().isEmpty()) {
+                old.setEmail(updated.getEmail());
+            }
+
+            if (updated.getCourseName() != null && !updated.getCourseName().isEmpty()) {
+                old.setCourseName(updated.getCourseName());
+            }
+
+            return studentRepository.save(old);
         }
-        studentRepository.save(old);
-        return old;
+
+        return null;
     }
 
 }
