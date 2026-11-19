@@ -1,13 +1,13 @@
 package com.managmnetSystem.StudentManagment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,7 +20,10 @@ public class Course {
     private Long id;
     private String courseName;
     private String duration;
-    private double fees;
+    private Double fees;
+
+    @OneToMany(mappedBy = "course")
+    private List<Student>students=new ArrayList<>();
 
 
 }

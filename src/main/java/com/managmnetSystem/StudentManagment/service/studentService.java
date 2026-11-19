@@ -28,9 +28,12 @@ public class studentService {
     public void deleteAll(){
         studentRepository.deleteAll();
     }
-    public Student update(Long id,Student updated){
-        Student old=studentRepository.findById(id).orElse(null);
+    public Student update(Long id, Student updated) {
+
+        Student old = studentRepository.findById(id).orElse(null);
+
         if (old != null) {
+
             if (updated.getName() != null && !updated.getName().isEmpty()) {
                 old.setName(updated.getName());
             }
@@ -39,8 +42,8 @@ public class studentService {
                 old.setEmail(updated.getEmail());
             }
 
-            if (updated.getCourseName() != null && !updated.getCourseName().isEmpty()) {
-                old.setCourseName(updated.getCourseName());
+            if (updated.getCourse() != null) {
+                old.setCourse(updated.getCourse());
             }
 
             return studentRepository.save(old);

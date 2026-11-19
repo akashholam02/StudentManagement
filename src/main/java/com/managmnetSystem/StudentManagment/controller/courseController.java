@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/course")
@@ -45,6 +46,32 @@ public class courseController {
     public ResponseEntity<?>deleteAll(){
         courseService.deleteall();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("id/{id}")
+    public ResponseEntity<?> updated(@PathVariable Long id, @RequestBody Course newEntry) {
+
+        Course result = courseService.getbyid(id);
+        if (result!=null) {
+            Course old = result;
+            old.setCourseName(
+                    newEntry.getCourseName() != null && !newEntry.getCourseName().isEmpty()
+                            ? newEntry.getCourseName() : old.getCourseName()
+            );
+            old.setDuration(
+                    newEntry.getDuration() != null && !newEntry.getDuration().isEmpty()
+                            ? newEntry.getDuration() : old.getDuration()
+            );
+            old.setFees(
+                    newEntry.getFees() != null
+                            ? newEntry.getFees() : old.getFees()
+            );
+            courseService.saveCourse(old);
+
+            return new ResponseEntity<>(old, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Course Not Found", HttpStatus.NOT_FOUND);
     }
 
 }
